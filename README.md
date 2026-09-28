@@ -160,7 +160,90 @@ flowchart TB
 | app.storage.dwh | История продаж | SQL-запрос | Данные для модели | sqlalchemy |
 
 
-## 8. Информационная безопасность и защита данных
+## 8. Спецификация контрактов REST API
+
+*Заголовки запроса:*
+
+    Content-Type: application/json
+    X-API-Key: <secret_token>
+
+*Схема входных данных (Pydantic):*
+
+```python
+from pydantic import BaseModel, Field
+
+class PredictionRequest(BaseModel):
+    sku_id: str = Field(description="Уникальный идентификатор товара")
+    horizon_days: int = Field(ge=7, le=30, description="Горизонт прогноза в днях")
+    base_price: float = Field(ge=0.0, description="Текущая цена товара, руб.")
+    promo_flag: bool = Field(default=False, description="Участвует ли товар в промо")
+    stock_qty: int = Field(ge=0, description="Текущий остаток на складе")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "sku_id": "SKU_00981",
+                "horizon_days": 14,
+                "base_price": 799.0,
+                "promo_flag": True,
+                "stock_qty": 320
+            }
+        }
+```
+
+*Схема успешного ответа (200 OK):*
+
+```python
+class PredictionResponse(BaseModel):
+    request_id: str = Field(description="UUID запроса для аудита")
+    sku_id: str = Field(description="Идентификатор товара")
+    forecast_demand: int = Field(description="Прогноз спроса, шт.")
+    recommended_price: float = Field(description="Рекомендуемая цена, руб.")
+    model_version: str = Field(description="Версия модели")
+    stale: bool = Field(description="True, если прогноз устаревший (fallback)")
+```
+
+*Пример успешного ответа:*
+
+```json
+{
+  "request_id": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+  "sku_id": "SKU_00981",
+  "forecast_demand": 145,
+  "recommended_price": 849.0,
+  "model_version": "1.3.0",
+  "stale": false
+}
+```
+
+*Ошибки валидации:*
+
+```json
+{
+  "error": "VALIDATION_FAILED",
+  "detail": [
+    {
+      "field": "horizon_days",
+      "message": "Value must be less than or equal to 30"
+    }
+  ]
+}
+```
+
+*GET /health — проверка состояния сервиса:*
+
+```json
+{
+  "status": "healthy",
+  "model_loaded": true,
+  "model_version": "1.3.0",
+  "uptime_seconds": 3600
+}
+```
+GET /metrics — метрики для Prometheus в формате OpenMetrics.
+
+
+## 9. Информационная безопасность и защита данных
 
 - доступ к сервису — только по ключу X-API-Key;
 
@@ -169,7 +252,7 @@ flowchart TB
 - персональные данные людей не обрабатываются (только данные о товарах, остатках и ценах).
 
 
-## 9. Наблюдаемость (Observability) и аудит
+## 10. Наблюдаемость (Observability) и аудит
 
 *Пример строки лога:*
 
