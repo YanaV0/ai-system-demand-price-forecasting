@@ -211,7 +211,7 @@ class PredictionResponse(BaseModel):
   "sku_id": "SKU_00981",
   "forecast_demand": 145,
   "recommended_price": 849.0,
-  "model_version": "1.3.0",
+  "model_version": "1.0.0",
   "stale": false
 }
 ```
@@ -236,7 +236,7 @@ class PredictionResponse(BaseModel):
 {
   "status": "healthy",
   "model_loaded": true,
-  "model_version": "1.3.0",
+  "model_version": "1.0.0",
   "uptime_seconds": 3600
 }
 ```
@@ -256,7 +256,17 @@ GET /metrics — метрики для Prometheus в формате OpenMetrics.
 
 *Пример строки лога:*
 
-{"timestamp": "2026-09-28T02:00:00Z", "level": "INFO", "request_id": "...", "item_id": "...", "latency_ms": 84.2, "status": 200, "forecast_horizon_days": 14, "model_version": "1.0.0"}
+```json
+{
+  "timestamp": "2026-09-28T02:00:00Z",
+  "level": "INFO",
+  "sku_id": "SKU_00981", 
+  "latency_ms": 84.2, 
+  "status": 200, 
+  "forecast_horizon_days": 14, 
+  "model_version": "1.0.0"
+}
+```
 
 **Метрики:**
 
