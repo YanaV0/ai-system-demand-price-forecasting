@@ -126,30 +126,20 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    Client[Менеджер / ERP] -->|Запрос прогноза| API[API Gateway]
-
-    subgraph App [Приложение]
-        API --> Auth[Модуль аутентификации]
-        Auth --> Validator[Модуль валидации]
-        Validator --> Features[Модуль предобработки]
-        Features --> Forecast[Модуль инференса]
-        Forecast --> Logic[Прикладная логика]
-    end
+    Client[Менеджер / ERP] -->|Запрос| API[API Gateway]
+    API --> Auth[Аутентификация]
+    Auth --> Validator[Валидация]
+    Validator --> Features[Предобработка]
+    Features --> Forecast[Инференс]
+    Forecast --> Logic[Прикладная логика]
+    Logic --> DB[(Слой хранения)]
+    DB --> ERP[Экспорт в ERP/1C]
 
     Cron[Планировщик] --> Features
-
-    Forecast -.->|Загружает модель| ModelStore[(Хранилище моделей)]
-    Logic -->|Сохраняет результат| DB[(Слой хранения)]
-    Features -->|Читает историю| DWH[(Хранилище исторических данных)]
-
-    Features --> Drift[Монитор дрейфа]
-    Drift -.->|Алерт| Alert[Уведомление]
-
-    API -.-> Metrics
-    Logic -.-> Logs
-
-    Logic -->|Ответ| Client
-    DB -->|Выгрузка раз в день| ERP[Экспорт в ERP/1C]
+    Forecast -.-> ModelStore[(Хранилище моделей)]
+    Features -.-> DWH[(Хранилище исторических данных)]
+    Features -.-> Drift[Монитор дрейфа]
+    Logic -.-> Metrics[Логи и метрики]
 ```
 
 
@@ -162,7 +152,7 @@ flowchart TB
 | app.core.auth| Проверка X-API-Key | Заголовок | 200 / 401 | fastapi |
 | app.ml.preprocessing | Подготовка признаков | Сырые данные | NumPy array | numpy, pandas |
 | app.ml.inference | Инференс модели | Признаки | Прогноз спроса и цены | joblib |
-| app.services.forecast` | Бизнес-логика и fallback | Запрос, прогноз | Готовый результат | Python |
+| app.services.forecast| Бизнес-логика и fallback | Запрос, прогноз | Готовый результат | Python |
 | app.repositories | Сохранение прогнозов | Прогноз | Запись в БД | sqlalchemy |
 | app.ml.drift | Контроль дрейфа | Признаки | PSI, алерт | evidently |
 | app.core.observability | Логи и метрики | События | JSON-логи, /metrics | prometheus-client |
