@@ -126,7 +126,7 @@ flowchart LR
 
 *Пример строки лога:*
 
--
+{"timestamp": "2026-09-28T02:00:00Z", "level": "INFO", "request_id": "...", "item_id": "...", "latency_ms": 84.2, "status": 200, "forecast_horizon_days": 14, "model_version": "1.0.0"}
 
 **Метрики:**
 
