@@ -98,7 +98,8 @@ flowchart LR
 &#x20;   System -.->|Метрики Prometheus| Prom\[Prometheus]
 
 
-\## 6. Компонентная декомпозиция (C4 Model — Level 2: Container / Component)
+
+&#x20; \## 6. Компонентная декомпозиция (C4 Model — Level 2: Container / Component)
 
 
 
