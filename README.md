@@ -162,7 +162,19 @@ flowchart TB
 
 ## 7. Таблица компонентов
 
-
+| Компонент | Назначение | Вход | Выход | Библиотеки |
+|-----------|-----------|------|-------|------------|
+| app.api.routes | HTTP-запросы | HTTP Request | HTTP Response | fastapi |
+| app.api.schemas | Валидация данных | JSON | Типизированный объект | pydantic |
+| app.core.auth| Проверка X-API-Key | Заголовок | 200 / 401 | fastapi |
+| app.ml.preprocessing | Подготовка признаков | Сырые данные | NumPy array | numpy, pandas |
+| app.ml.inference | Инференс модели | Признаки | Прогноз спроса и цены | joblib |
+| app.services.forecast` | Бизнес-логика и fallback | Запрос, прогноз | Готовый результат | Python |
+| app.repositories | Сохранение прогнозов | Прогноз | Запись в БД | sqlalchemy |
+| app.ml.drift | Контроль дрейфа | Признаки | PSI, алерт | evidently |
+| app.core.observability | Логи и метрики | События | JSON-логи, /metrics | prometheus-client |
+| airflow.dags| Ночной расчёт | Расписание | Запуск задачи | airflow |
+| app.storage.dwh | История продаж | SQL-запрос | Данные для модели | sqlalchemy |
 
 
 ## 8. Информационная безопасность и защита данных
