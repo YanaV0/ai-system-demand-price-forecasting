@@ -1,6 +1,6 @@
 # ai-system-demand-price-forecasting
 
-# AI-система прогнозирования спроса и цен (Demand \& Price Forecasting)
+## AI-система прогнозирования спроса и цен (Demand \& Price Forecasting)
 
 
 ## 1. Бизнес-цель
