@@ -85,21 +85,21 @@
 
 flowchart LR
 
-&#x20;   Planner\[Планировщик / Категорийный менеджер] -->|HTTPS: запрос прогноза| System\[AI-Система прогноза спроса и цен]
+   Planner\[Планировщик / Категорийный менеджер] -->|HTTPS: запрос прогноза| System\[AI-Система прогноза спроса и цен]
 
-&#x20;   System -->|JSON/CSV: прогноз и цена| Planner
+   System -->|JSON/CSV: прогноз и цена| Planner
 
-&#x20;   System -->|Чтение истории продаж| ERP\[(ERP / 1С / Склад)]
+   System -->|Чтение истории продаж| ERP\[(ERP / 1С / Склад)]
 
-&#x20;   System -->|Экспорт витрин прогноза| ERP
+   System -->|Экспорт витрин прогноза| ERP
 
-&#x20;   System -->|Алерты о сезонных аномалиях| Alert\[Telegram / Email]
+   System -->|Алерты о сезонных аномалиях| Alert\[Telegram / Email]
 
-&#x20;   System -.->|Метрики Prometheus| Prom\[Prometheus]
+   System -.->|Метрики Prometheus| Prom\[Prometheus]
+```
 
 
-
-&#x20; \## 6. Компонентная декомпозиция (C4 Model — Level 2: Container / Component)
+\## 6. Компонентная декомпозиция (C4 Model — Level 2: Container / Component)
 
 
 
