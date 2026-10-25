@@ -8,3 +8,6 @@ __pycache__/
 *.joblib
 *.pkl
 .DS_Store
+
+mlruns/
+mlflow.db
