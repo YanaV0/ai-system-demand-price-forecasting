@@ -281,6 +281,11 @@ GET /metrics — метрики для Prometheus в формате OpenMetrics.
 
 ## 11. Инструкция по запуску
 
+Требования:
+- Python 3.10+
+- Git
+- DVC
+
 **1. Клонирование репозитория и настройка окружения**
 ```bash
 git clone https://github.com/YanaV0/ai-system-demand-price-forecasting.git
