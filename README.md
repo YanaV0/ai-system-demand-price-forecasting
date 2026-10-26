@@ -286,17 +286,17 @@ GET /metrics — метрики для Prometheus в формате OpenMetrics.
 git clone https://github.com/YanaV0/ai-system-demand-price-forecasting.git
 cd ai-system-demand-price-forecasting
 ```
-Создание и активация виртуального окружения
+**2. Создание и активация виртуального окружения**
 ```bach
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 ```
-**2. Запуск конвейера подготовки данных**
+**3. Запуск конвейера подготовки данных**
 ```bach
 dvc repro
 ```
-**3. Просмотр результатов в MLflow**
+**4. Просмотр результатов в MLflow**
 ```bach
 mlflow ui
 ```
