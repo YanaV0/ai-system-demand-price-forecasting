@@ -1,0 +1,7 @@
+{
+  "raw_rows": 1000,
+  "clean_rows": 1000,
+  "train_rows": 800,
+  "test_rows": 200,
+  "dropped_rows": 0
+}
