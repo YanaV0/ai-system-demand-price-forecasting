@@ -3,32 +3,66 @@ stages:
   prepare_data:
     cmd: python src/pipeline.py
     deps:
-    - path: data/raw/telemetry.csv
+    - path: data/raw/sales.csv
       hash: md5
-      md5: e7a6d97018f73e65562fed46d2346272
-      size: 94382
+      md5: 293c7a5f8d54e8dc0984298b9a258535
+      size: 141343
     - path: src/contracts.py
       hash: md5
-      md5: b2734817e53a4b401a9b950f6e5c4e97
-      size: 681
+      md5: 9b8b8d4dff10945cc1d1b2ef4db2b47a
+      size: 513
     - path: src/pipeline.py
       hash: md5
-      md5: 3fd9ad8e346e3521bb2ba84a67bb70cb
-      size: 2655
+      md5: 9e67ac8abe1723dc52d5eafa63d26d13
+      size: 3003
+    params:
+      params.yaml:
+        prepare:
+          train_share: 0.8
     outs:
     - path: artifacts/preprocessor.joblib
       hash: md5
-      md5: a2c3b72794ccb3ed518c62c60d038b9d
-      size: 3005
+      md5: d0b6326b955f3b6f84012af02f893718
+      size: 3729
     - path: data/processed/test.parquet
       hash: md5
-      md5: 41330de52c093d9c8a77595ee6c473e0
-      size: 10750
+      md5: f6fa2f00a4c537ee788a51945238c531
+      size: 30053
     - path: data/processed/train.parquet
       hash: md5
-      md5: 03f8328a724627ecbe08c4e2d2560c92
-      size: 27864
+      md5: dbe651f185888dc0f7005db890916ce8
+      size: 67673
     - path: data/processed/validation_report.json
       hash: md5
-      md5: 37dda397fcff74f35a4f6ad2c3e13d73
-      size: 112
+      md5: fbf4f8898d36287f3e895fb1c1fc7165
+      size: 114
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/test.parquet
+      hash: md5
+      md5: f6fa2f00a4c537ee788a51945238c531
+      size: 30053
+    - path: data/processed/train.parquet
+      hash: md5
+      md5: dbe651f185888dc0f7005db890916ce8
+      size: 67673
+    - path: src/train.py
+      hash: md5
+      md5: 0b19c5120cfc1b1aaa30e24b684145e5
+      size: 1054
+    params:
+      params.yaml:
+        train:
+          n_estimators: 200
+          max_depth: 10
+          random_state: 42
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 125351a8bf6e3e7a5a5fe25067dc8f30
+      size: 13451265
+    - path: reports/metrics.json
+      hash: md5
+      md5: 89246d8cff6ea2e23005ef6921beb8e6
+      size: 98

@@ -1,7 +1,7 @@
 {
-  "raw_rows": 1000,
-  "clean_rows": 1000,
-  "train_rows": 800,
-  "test_rows": 200,
-  "dropped_rows": 0
+  "raw_rows": 3650,
+  "clean_rows": 3580,
+  "train_rows": 2864,
+  "test_rows": 716,
+  "dropped_rows": 70
 }

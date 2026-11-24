@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # Отключение буферизации для немедленного вывода логов
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копирование исходного кода и артефактов
-COPY src/ ./src/
+COPY src/__init__.py src/api.py src/schemas.py ./src/
 COPY artifacts/ ./artifacts/
 COPY models/ ./models/
 

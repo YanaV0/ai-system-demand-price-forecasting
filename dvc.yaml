@@ -4,11 +4,26 @@ stages:
     deps:
       - src/pipeline.py
       - src/contracts.py
-      - data/raw/telemetry.csv
+      - data/raw/sales.csv
+    params:
+      - prepare
     outs:
       - data/processed/train.parquet
       - data/processed/test.parquet
       - artifacts/preprocessor.joblib
     metrics:
       - data/processed/validation_report.json:
+          cache: false
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/train.parquet
+      - data/processed/test.parquet
+    params:
+      - train
+    outs:
+      - models/model.joblib
+    metrics:
+      - reports/metrics.json:
           cache: false
