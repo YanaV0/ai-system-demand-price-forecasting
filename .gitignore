@@ -5,9 +5,7 @@ __pycache__/
 .env
 .pytest_cache/
 .ipynb_checkpoints/
-*.joblib
 *.pkl
 .DS_Store
-
 mlruns/
 mlflow.db

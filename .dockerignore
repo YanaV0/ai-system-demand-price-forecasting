@@ -5,5 +5,8 @@ __pycache__/
 .git/
 .dvc/cache/
 data/raw/
+mlruns/
+docs/
+tests/
 *.csv
 .DS_Store

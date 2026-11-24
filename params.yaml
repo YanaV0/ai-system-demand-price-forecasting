@@ -1,0 +1,6 @@
+prepare:
+  train_share: 0.8
+train:
+  n_estimators: 200
+  max_depth: 10
+  random_state: 42
