@@ -1,6 +1,6 @@
 import pandera as pa
-from pandera import Column, Check, DataFrameSchema
- 
+from pandera import Check, Column, DataFrameSchema
+
 RawSalesSchema = DataFrameSchema({
     "sku_id": Column(str, Check.str_matches(r"^SKU_\d{4}$"), nullable=False),
     "date": Column(pa.DateTime, nullable=False),

@@ -1,10 +1,12 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 from pydantic import ValidationError
 
+from app.inference import ModelUnavailable  # <-- Добавили импорт для правильной ошибки
 from app.schemas import ForecastRequest
 from app.service import process_request
-from app.inference import ModelUnavailable # <-- Добавили импорт для правильной ошибки
+
 
 # 1. Корректный запрос
 def test_valid_request_returns_result():

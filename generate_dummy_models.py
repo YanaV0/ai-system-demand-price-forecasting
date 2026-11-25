@@ -1,8 +1,9 @@
-import joblib
 import os
+
+import joblib
+import pandas as pd
 from sklearn.dummy import DummyClassifier
 from sklearn.preprocessing import StandardScaler
-import pandas as pd
 
 # Создаем папки, если их нет
 os.makedirs("models", exist_ok=True)

@@ -1,10 +1,14 @@
-import json, joblib, yaml
+import json
+from pathlib import Path
+
+import joblib
 import numpy as np
 import pandas as pd
-from pathlib import Path
+import yaml
 from sklearn.ensemble import RandomForestRegressor
- 
-params = yaml.safe_load(open("params.yaml"))["train"]
+
+with open("params.yaml", "r") as f:
+    params = yaml.safe_load(f)["train"]
 train = pd.read_parquet("data/processed/train.parquet")
 test = pd.read_parquet("data/processed/test.parquet")
 X_tr, y_tr = train.drop(columns="units_sold"), train["units_sold"]

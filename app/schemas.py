@@ -6,6 +6,7 @@ ForecastResult  — что компонент возвращает.
 
 from pydantic import BaseModel, Field, field_validator
 
+
 class ForecastRequest(BaseModel):
     """Входной контракт: запрос на прогноз спроса и цены по одному SKU."""
 

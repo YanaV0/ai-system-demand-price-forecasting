@@ -1,7 +1,9 @@
 import pytest
 from fastapi.testclient import TestClient
+
 from src.api import app
 from tests.test_api import PAYLOAD
+
 
 @pytest.fixture()
 def client():

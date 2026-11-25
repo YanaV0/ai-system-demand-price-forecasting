@@ -1,13 +1,14 @@
 import time
 import uuid
-import logging
 from contextlib import asynccontextmanager
+
 import joblib
 import pandas as pd
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
+
 from src.logger import get_json_logger
 from src.schemas import ForecastRequest, ForecastResponse
- 
+
 MODEL_VERSION = "v1.0.0"
 logger = get_json_logger("forecast_api")
 
@@ -18,7 +19,7 @@ async def lifespan(app: FastAPI):
     try:
         app.state.preprocessor = joblib.load("artifacts/preprocessor.joblib")
         app.state.model = joblib.load("models/model.joblib")
-    except Exception as exc:
+    except Exception as exc: # noqa: BLE001
         app.state.model = None
         logger.error("Ошибка загрузки артефактов",
                      extra={"extra_data": {"error": str(exc)}})
@@ -48,7 +49,7 @@ def predict(req: ForecastRequest):
             "day_of_week": req.date.weekday(), "month": req.date.month,
         }])
         demand = max(0.0, float(model.predict(prep.transform(df))[0]))
-    except Exception as exc:
+    except Exception as exc: # noqa: BLE001
         source = "fallback_rule"          # ПАТТЕРН FALLBACK
         demand = float(req.roll_mean_7)
         logger.warning("fallback", extra={"extra_data": {
