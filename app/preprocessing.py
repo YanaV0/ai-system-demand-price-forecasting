@@ -2,7 +2,9 @@
 Подготовка признаков для модели.
 """
 import numpy as np
+
 from app.schemas import ForecastRequest
+
 
 def prepare_features(request: ForecastRequest) -> np.ndarray:
     mean_history = sum(request.history) / len(request.history)

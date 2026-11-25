@@ -1,7 +1,8 @@
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
- 
+
 rng = np.random.default_rng(42)
 dates = pd.date_range("2024-01-01", periods=365, freq="D")
 rows = []

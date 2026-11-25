@@ -1,6 +1,7 @@
-from app.schemas import ForecastRequest, ForecastResult
-from app.preprocessing import prepare_features
 from app.inference import ModelPredictor, ModelUnavailable
+from app.preprocessing import prepare_features
+from app.schemas import ForecastRequest, ForecastResult
+
 
 def process_request(request: ForecastRequest) -> ForecastResult:
     predictor = ModelPredictor()
@@ -23,7 +24,7 @@ def process_request(request: ForecastRequest) -> ForecastResult:
     # 2. Если модель загрузилась, готовим признаки
     try:
         features = prepare_features(request)
-    except Exception as e:
+    except Exception as e: # noqa: BLE001
         return ForecastResult(
             forecast_demand=None,
             recommended_price=None,

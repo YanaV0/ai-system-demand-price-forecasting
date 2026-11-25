@@ -1,12 +1,17 @@
+import json
 from pathlib import Path
-import json, joblib, mlflow, yaml
+
+import joblib
+import mlflow
 import pandas as pd
+import yaml
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
 from contracts import RawSalesSchema
- 
+
 RAW = Path("data/raw/sales.csv")
 OUT = Path("data/processed")
 ART = Path("artifacts")
@@ -18,7 +23,8 @@ PASS = ["promo", "day_of_week", "month"]
 CAT = ["sku_id"]
  
 def main():
-    params = yaml.safe_load(open("params.yaml"))["prepare"]
+    with open("params.yaml", "r") as f:
+        params = yaml.safe_load(f)["prepare"]
     raw = pd.read_csv(RAW, parse_dates=["date"])
     clean = RawSalesSchema.validate(raw).drop_duplicates().copy()
     clean = clean.sort_values(["sku_id", "date"])

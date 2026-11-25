@@ -1,7 +1,9 @@
 from datetime import date as Date
-from pydantic import BaseModel, Field
 from typing import Literal
- 
+
+from pydantic import BaseModel, Field
+
+
 class ForecastRequest(BaseModel):
     sku_id: str = Field(..., pattern=r"^SKU_\d{4}$", description="Идентификатор товара")
     date: Date = Field(..., description="Дата, на которую считается прогноз")
