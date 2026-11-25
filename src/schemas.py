@@ -1,5 +1,6 @@
 from datetime import date as Date
 from pydantic import BaseModel, Field
+from typing import Literal
  
 class ForecastRequest(BaseModel):
     sku_id: str = Field(..., pattern=r"^SKU_\d{4}$", description="Идентификатор товара")
@@ -11,6 +12,10 @@ class ForecastRequest(BaseModel):
     roll_mean_7: float = Field(..., ge=0, description="Среднее продаж за последние 7 дней, шт.")
  
 class ForecastResponse(BaseModel):
-    sku_id: str
-    forecast_demand: float
-    model_version: str
+    trace_id: str = Field(description="Сквозной идентификатор запроса (UUID4)")
+    sku_id: str = Field(description="Идентификатор товара")
+    forecast_demand: float = Field(description="Прогноз спроса, шт.")
+    model_version: str = Field(description="Версия модели")
+    source: Literal["model", "fallback_rule"] = Field(
+        description="Источник прогноза: модель или резервное правило")
+    latency_ms: float = Field(description="Время обработки запроса, мс")

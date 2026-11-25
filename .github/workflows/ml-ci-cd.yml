@@ -1,0 +1,54 @@
+name: ML System CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Установка Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip"
+
+      - name: Установка зависимостей
+        run: pip install -r requirements-dev.txt ruff
+
+      - name: Линтинг
+        run: ruff check src tests
+
+      - name: Подготовка данных и обучение модели
+        run: |
+          python src/make_dataset.py
+          python src/pipeline.py
+          python src/train.py
+
+      - name: Тесты (pytest)
+        run: python -m pytest tests/ -v --ignore=tests/test_container.py
+
+      - name: Сборка Docker-образа
+        run: docker build -t forecast-predictor:${{ github.sha }} .
+
+      - name: Запуск контейнера
+        run: docker run -d -p 8000:8000 --name test-api forecast-predictor:${{ github.sha }}
+
+      - name: Smoke-тест контейнера
+        run: |
+          for i in $(seq 1 30); do curl -fs http://localhost:8000/health && break; sleep 1; done
+          curl --fail http://localhost:8000/health
+          python -m pytest tests/test_container.py -v
+
+      - name: Логи контейнера при ошибке
+        if: failure()
+        run: docker logs test-api
+
+      - name: Остановка контейнера
+        if: always()
+        run: docker stop test-api

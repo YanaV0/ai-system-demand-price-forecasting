@@ -1,6 +1,8 @@
 ## ai-system-demand-price-forecasting
 
-## AI-система прогнозирования спроса и цен (Demand \& Price Forecasting)
+# AI-система прогнозирования спроса и цен (Demand \& Price Forecasting)
+
+ ![CI](https://github.com/YanaV0/ai-system-demand-price-forecasting/actions/workflows/ml-ci-cd.yml/badge.svg)
 
 
 ## 1. Бизнес-цель
@@ -305,3 +307,18 @@ dvc repro
 ```bach
 mlflow ui
 ```
+
+
+## 12. Запуск в Docker
+
+ ```bash
+  pip install -r requirements-dev.txt
+  python src/make_dataset.py 
+  python src/pipeline.py 
+  python src/train.py
+  docker build -t forecast-predictor:v1.0.0 .
+  docker run -d -p 8000:8000 --name forecast-api forecast-predictor:v1.0.0
+  curl http://localhost:8000/health
+  curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" \
+    -d '{"sku_id":"SKU_0001","date":"2025-03-15","price":799.0,"promo":false,"stock_qty":120,"lag_7":40,"roll_mean_7":38.5}'
+  ```

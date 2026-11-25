@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копирование исходного кода и артефактов
-COPY src/__init__.py src/api.py src/schemas.py ./src/
+COPY src/__init__.py src/api.py src/schemas.py src/logger.py ./src/
 COPY artifacts/ ./artifacts/
 COPY models/ ./models/
 
